@@ -1,0 +1,20 @@
+/**
+ * Dependencies.
+ */
+
+// https://github.com/rdfjs/N3.js
+export { Store, Parser, DataFactory, Writer } from 'https://unpkg.com/n3@v2.13.12/browser/n3.esm.min.js';
+
+// https://github.com/doga/IRI
+export { 
+  iri, IRI, 
+  irl, IRL, 
+  urn, URN,
+  url 
+} from "https://esm.sh/gh/doga/IRI@3.1.6/mod.mjs";
+
+// https://github.com/doga/language
+export {
+  langTag, LanguageTag, 
+  lang, Language
+} from "https://esm.sh/gh/doga/language@1.2.0/mod.mjs";
