@@ -18,7 +18,7 @@ Translates RDF into human languages. Supported file formats:
 ```javascript
 import { 
   Translator, OntologyDictionary, parse, langTag, LanguagePreferences,
-} from "path/to/mod.mjs";
+} from "https://cdn.jsdelivr.net/gh/doga/rdf-to-text@1.0.0/mod.mjs";
 
 await run();
 
