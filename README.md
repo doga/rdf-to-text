@@ -46,7 +46,7 @@ async function run(){
     await buildRdfDictionary()
   ],
   langPrefs = new LanguagePreferences([
-    langTag`en`, langTag`fr`, langTag`de`, langTag`tr`
+    langTag`en`, langTag`fr-CA`, langTag`de`, langTag`tr-TR`
   ]),
   translator  = new Translator(langPrefs),
   translation = translator.translate(dataset, dictionaries);
