@@ -11,10 +11,10 @@ export {
   irl, IRL, 
   urn, URN,
   url 
-} from "https://cdn.jsdelivr.net/gh/doga/IRI@3.1.6/mod.mjs";
+} from "https://cdn.jsdelivr.net/gh/doga/IRI@3.1.7/mod.mjs";
 
 // https://github.com/doga/language
 export {
   langTag, LanguageTag, 
   lang, Language
-} from "https://cdn.jsdelivr.net/gh/doga/language@1.2.0/mod.mjs";
+} from "https://cdn.jsdelivr.net/gh/doga/language@1.2.1/mod.mjs";
