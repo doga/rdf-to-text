@@ -55,9 +55,9 @@ async function run(){
     await buildFoafDictionary(),
     await buildRdfDictionary()
   ],
-  langPrefs = new LanguagePreferences([
-    langTag`en`, langTag`fr-CA`, langTag`de`, langTag`tr-TR`
-  ]),
+  langPrefs = new LanguagePreferences(
+    ['en', 'fr-CA', 'de', 'tr-TR'].map(e => langTag`${e}`)
+  ),
 
   //▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
   translator  = new Translator(langPrefs),
