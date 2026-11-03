@@ -42,14 +42,14 @@ async function run(){
     PREFIX qrmm:   <https://vocab.qworum.net/qrmm.ttl#>
     PREFIX qrmd:   <https://vocab.qworum.net/qrmd.ttl#>
     PREFIX :       <http://site.example/>
-    :according_to qrmm:prose 'is according to'@en.
     :jonka
       a foaf:Person ;
       foaf:name "Jon Ka".
     :jimdo
       a foaf:Person ;
       foaf:name "Jim Do".
-    << :jimdo foaf:weblog "https://weblog.jimdo.me"^^qrmd:anyIRI >> :according_to :jonka .
+    << :jimdo foaf:weblog "https://weblog.jimdo.me"^^qrmd:anyIRI >> :acc :jonka .
+    :acc qrmm:prose 'is according to'@en.
   `),
   dictionaries = [
     await buildFoafDictionary(),
