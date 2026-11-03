@@ -15,6 +15,18 @@ Translates RDF into human languages. Supported file formats:
 
 ## How to use
 
+The translation produced for a dataset depends on:
+
+1. the dictionaries used for translating ontologies to human languages, and
+2. the user's language preferences.
+
+Note that the translated dataset can also contain translations.
+
+Here are the predicates that define a translation for an IRI or blank node:
+
+- For ontologies: `qrmm:prose`, with `rdfs:label` as the lower-priority fallback. Blank nodes are not translated.
+- In the translated datasets: `qrmm:prose`, `foaf:name`, `schema:name`, `schema:givenName`, with `rdfs:label` as the lower-priority fallback.
+
 ```javascript
 import { 
   Translator, OntologyDictionary, parse, langTag, LanguagePreferences,
@@ -25,21 +37,19 @@ await run();
 async function run(){
   const
   dataset = await parse(`
-    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    PREFIX qrmm: <https://vocab.qworum.net/qrmm.ttl#>
-    PREFIX : <http://site.example/>
-
+    PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+    PREFIX schema: <https://schema.org/>
+    PREFIX qrmm:   <https://vocab.qworum.net/qrmm.ttl#>
+    PREFIX qrmd:   <https://vocab.qworum.net/qrmd.ttl#>
+    PREFIX :       <http://site.example/>
     :according_to qrmm:prose 'is according to'@en.
-
     :jonka
       a foaf:Person ;
       foaf:name "Jon Ka".
-
     :jimdo
       a foaf:Person ;
       foaf:name "Jim Do".
-
-    << :jimdo foaf:name "Jim Do" >> :according_to :jonka .
+    << :jimdo foaf:weblog "https://weblog.jimdo.me"^^qrmd:anyIRI >> :according_to :jonka .
   `),
   dictionaries = [
     await buildFoafDictionary(),
@@ -48,8 +58,14 @@ async function run(){
   langPrefs = new LanguagePreferences([
     langTag`en`, langTag`fr-CA`, langTag`de`, langTag`tr-TR`
   ]),
+
+  //▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+  // The translation produced for a dataset depends on:
+  // 1. the dictionaries used for translating ontologies,
+  // 2. the user's language preferences.
   translator  = new Translator(langPrefs),
   translation = translator.translate(dataset, dictionaries);
+  //▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
   console.info(translation.filter(str => str !== null).join('\n'));
 }
@@ -57,18 +73,14 @@ async function run(){
 async function buildRdfDictionary() {
   const 
   dataset = await parse(`
-    # https://vocab.qworum.net/prose-annotations/rdf-and-rdfs-annotations.ttl
     PREFIX qrmm: <https://vocab.qworum.net/qrmm.ttl#>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-    rdf:type qrmm:prose 'is'@en .
-    rdfs:label qrmm:prose 'is'@en .
+    rdf:type qrmm:prose 'is'@en.
+    rdfs:label qrmm:prose 'is'@en.
   `),
   dictionary = new OntologyDictionary();
-
   dictionary.addDataset(dataset);
-
   return dictionary;
 }
 
@@ -77,17 +89,12 @@ async function buildFoafDictionary() {
   dataset = await parse(`
     PREFIX qrmm: <https://vocab.qworum.net/qrmm.ttl#>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-
-    foaf:Person qrmm:prose 'a person'@en .
-    foaf:name qrmm:prose
-      'is named'@en,
-      'est nommé'@fr,
-      'hat den Namen'@de.
+    foaf:Person qrmm:prose 'a person'@en.
+    foaf:name qrmm:prose 'is named'@en, 'est nommé'@fr, 'hat den Namen'@de.
+    foaf:weblog qrmm:prose 'has the weblog'@en.
   `),
   dictionary = new OntologyDictionary();
-
   dictionary.addDataset(dataset);
-
   return dictionary;
 }
 ```
@@ -97,7 +104,7 @@ The output:
 ```text
 Jon Ka is a person.
 Jim Do is a person.
-Jim Do is named Jim Do; this is according to Jon Ka.
+Jim Do has the weblog https://weblog.jimdo.me; this is according to Jon Ka.
 ```
 
 ∎
