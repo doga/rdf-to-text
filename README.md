@@ -60,9 +60,6 @@ async function run(){
   ]),
 
   //▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-  // The translation produced for a dataset depends on:
-  // 1. the dictionaries used for translating ontologies,
-  // 2. the user's language preferences.
   translator  = new Translator(langPrefs),
   translation = translator.translate(dataset, dictionaries);
   //▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
