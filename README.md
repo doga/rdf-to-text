@@ -38,7 +38,6 @@ async function run(){
   const
   dataset = await parse(`
     PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
-    PREFIX schema: <https://schema.org/>
     PREFIX qrmm:   <https://vocab.qworum.net/qrmm.ttl#>
     PREFIX qrmd:   <https://vocab.qworum.net/qrmd.ttl#>
     PREFIX :       <http://site.example/>
